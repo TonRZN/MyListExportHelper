@@ -14,10 +14,11 @@ namespace MyList
         public string EpisodeTitle { get; set; }
         public string GroupName { get; set; }
         public string ED2K { get; set; }
+        public string FileID { get; set; }
 
         public bool isComplete()
         {
-            return !String.IsNullOrEmpty(ID) && !String.IsNullOrEmpty(Name) && !String.IsNullOrEmpty(EpisodeNumber) && !String.IsNullOrEmpty(EpisodeTitle) && !String.IsNullOrEmpty(GroupName) && !String.IsNullOrEmpty(ED2K);
+            return !String.IsNullOrEmpty(ID) && !String.IsNullOrEmpty(Name) && !String.IsNullOrEmpty(EpisodeNumber) && !String.IsNullOrEmpty(EpisodeTitle) && !String.IsNullOrEmpty(GroupName) && !String.IsNullOrEmpty(ED2K) && !String.IsNullOrEmpty(FileID);
         }
     }
 }
