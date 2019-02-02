@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace MyList
@@ -21,17 +20,22 @@ namespace MyList
             //Code to handling command line launch
             string path = "";
             if (args.Length > 0)
+            {
                 path = args[0];
+            }
+            //Command to handle manual launch
+            else
+            {
+                Console.WriteLine("Insert file path:");
+                Console.Write(">");
+                path = Console.ReadLine();
+            }
 
             if (File.Exists(path))
                 createCleanJson(path);
             else
                 Console.WriteLine("File not found");
 
-            //Command to handle manual launch
-            Console.WriteLine("Insert file path:");
-            Console.Write(">");
-            createCleanJson(Console.ReadLine());
             Console.WriteLine("Done");
             Console.ReadKey();
         }
@@ -67,7 +71,7 @@ namespace MyList
                 if (matchMylist.Length > 0)
                     try { Console.WriteLine("MyList code ignored"); } catch { } //Just to see if this is working
 
-                //Tries to get the anime id from the string => {int4 lid}|{int4 fid}|{int4 eid}|{int4 aid}|{int4 gid}|{int4 date}|{int2 state}|{int4 viewdate}|{str storage}|{str source}|{str other}|{int2 filestate} 
+                //Tries to get the anime id from the string => {int4 lid}|{int4 fid}|{int4 eid}|{int4 aid}|{int4 gid}|{int4 date}|{int2 state}|{int4 viewdate}|{str storage}|{str source}|{str other}|{int2 filestate}
                 var matchAid = aid.Match(line);
                 if (matchAid.Length > 0)
                     try { current.ID = matchAid.Value.Split('|')[3].ToString(); } catch { /*TODO : A better regex pattern...*/ }
