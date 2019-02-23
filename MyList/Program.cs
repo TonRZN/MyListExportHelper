@@ -11,7 +11,7 @@ namespace MyList
         private static readonly Regex title = new Regex(@"# File: (?<AnimeName>.*) - (?<EpisodeNumber>.*) - (?<EpisodeName>.*) - (?<GroupName>.*).(?<FileExtension>.{3,})");
         private static readonly Regex ed2k = new Regex(@"# UID: (?<FileSize>[0-9]+):(?<ED2K>.+)");
         private static readonly Regex mylist = new Regex(@"(221 MYLIST)+");
-        private static readonly Regex ids = new Regex(@"(\|+\d*)+");
+        private static readonly Regex ids = new Regex(@"(\d*\|){11}\d*"); //(\|+\d*)+
 
         private static List<Anime> animes = new List<Anime>();
 
@@ -71,9 +71,9 @@ namespace MyList
                     try { current.ED2K = matchEd2k.Groups["ED2K"].ToString(); } catch { }
 
                 //Tries to get the mylist UDP success code => 221 MYLIST
-                var matchMylist = mylist.Match(line);
+                /*var matchMylist = mylist.Match(line);
                 if (matchMylist.Length > 0)
-                    try { Console.WriteLine("MyList code ignored"); } catch { } //Just to see if this is working
+                    try { Console.WriteLine("MyList code ignored"); } catch { } //Just to see if this is working*/
 
                 //Tries to get the anime id and file id from the line => {int4 lid}|{int4 fid}|{int4 eid}|{int4 aid}|{int4 gid}|{int4 date}|{int2 state}|{int4 viewdate}|{str storage}|{str source}|{str other}|{int2 filestate}
                 var matchIDs = ids.Match(line);
@@ -89,12 +89,13 @@ namespace MyList
                 if (current.isComplete())
                 {
                     animes.Add(current);
+                    Console.WriteLine("File {0} was parsed", current.FileID);
                     current = new Anime();
                 }
             }
 
             //Write the new file
-            File.WriteAllText(Path.ChangeExtension(file, "_clean.json"), JsonConvert.SerializeObject(animes));
+            File.WriteAllText(Path.ChangeExtension(file, "clean.json"), JsonConvert.SerializeObject(animes));
         }
     }
 }
